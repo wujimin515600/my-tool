@@ -1,0 +1,4 @@
+# pnpm-workspace.yaml
+packages:
+  - 'libs/**' # 指定 packages 目录下所有模块都为 monorepo 的子模块
+  - 'apps/**'

@@ -1,0 +1,1 @@
+"const mongoose = require('mongoose');\n\n// 创建模型\n\nmodule.exports = {  };\n"
