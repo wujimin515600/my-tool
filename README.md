@@ -3,20 +3,13 @@
 
 ## 管理项目
 
-### 全局安装
 ```
+# 全局安装
 pnpm install
-``` 
 
-### 在根目录安装指定子模块
-```
-pnpm install -w @my-tool/xxx
-```
-### 启动项目
-```
-pnpm start
-```
-### 在根目录启动指定子模块
-```
-pnpm start -w @my-tool/xxx
-```
+# 安装全局依赖
+pnpm add -D typescript eslint -w
+
+# 为 frontend 安装 vite
+pnpm add vite -D -r --filter frontend
+``` 

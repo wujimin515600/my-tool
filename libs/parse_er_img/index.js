@@ -3,7 +3,7 @@ import fsExtra from "fs-extra";
 import path from "path";
 import { Jimp } from "jimp";
 import { createWorker } from "tesseract.js";
-import cv from "opencv4nodejs";
+// import cv from "opencv4nodejs";
 
 async function main() {
     try {

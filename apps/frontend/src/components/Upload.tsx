@@ -1,65 +1,104 @@
-import React, { useState } from 'react';
-import { PlusOutlined } from '@ant-design/icons';
-import { Image, Upload } from 'antd';
-import type { GetProp, UploadFile, UploadProps } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { InboxOutlined } from '@ant-design/icons';
+import type { UploadProps } from 'antd';
+import { Upload, Image } from 'antd';
+import {usePreviewStore, type PreviewStore}from '../stores'
 
-type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
+const { Dragger } = Upload;
 
-const getBase64 = (file: FileType): Promise<string> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = (error) => reject(error);
-  });
 
-const Uploadpage: React.FC = () => {
-  const [previewOpen, setPreviewOpen] = useState(false);
-  const [previewImage, setPreviewImage] = useState('');
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
 
-  const handlePreview = async (file: UploadFile) => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj as FileType);
+const UploadPage: React.FC = () => {
+    const [previewImage, setPreviewImage] = useState('');
+// 为了解决类型不兼容问题，将 state 类型暂时设置为 unknown，并在使用前进行类型断言
+const previeStore = usePreviewStore((state: unknown) => {
+    const typedState = state as PreviewStore;
+    return typedState.previewImage;
+});
+
+    // 生成文件预览 URL
+    const getFilePreviewUrl = (file: Blob | MediaSource) => {
+        return URL.createObjectURL(file);
+        // base64 的数据
+        // return new Promise((resolve) => {
+        //   const reader = new FileReader();
+        //   reader.onloadend = () => resolve(reader.result);
+        //   reader.readAsDataURL(file);
+        // });
+    };
+    useEffect(() => {
+        console.log('previewImage', previeStore)
+        setPreviewImage('');
+    }, [previeStore]);
+    // 阻止自动上传
+    const beforeUpload = () => false;
+    const props: UploadProps = {
+        name: 'file',
+        multiple: true,
+        beforeUpload: beforeUpload,
+        disabled: !!previewImage,
+        onChange(info) {
+            console.log('Upload changed:', info.fileList);
+            const filteredImages = info.fileList
+                // .filter(file => file.status === 'done' || file.status === 'ready')
+                .map(file => {
+                    // 处理预览 URL
+                    if (file.response) {
+                        // 服务器返回的 URL
+                        return { ...file, url: file.response.url };
+                    }
+                    // 本地文件的预览 URL
+                    return { ...file, url: file.url ?? file.thumbUrl };
+                });
+
+
+            const previewUrl = getFilePreviewUrl(filteredImages[0].originFileObj as Blob | MediaSource);
+            setPreviewImage(previewUrl ?? '');
+        },
+        onDrop(e) {
+            console.log('Dropped files', e.dataTransfer.files);
+        },
+    };
+
+    // 组件卸载时释放Blob URL
+    React.useEffect(() => {
+        return () => {
+            // 释放所有Blob URL以避免内存泄漏
+            if (previewImage) {
+                URL.revokeObjectURL(previewImage);
+            }
+        };
+    }, [previewImage]);
+
+    const preView = (previewImage: string) => {
+        return (
+            <Image
+                width='100%'
+                src={previewImage}
+            />
+        )
     }
 
-    setPreviewImage(file.url || (file.preview as string));
-    setPreviewOpen(true);
-  };
+    const uploadView = () => {
+        return (
+            <>
+                <p className="ant-upload-drag-icon">
+                    <InboxOutlined />
+                </p>
+                <p className="ant-upload-text">Click or drag file to this area to upload</p>
+                <p className="ant-upload-hint">
+                    Support for a single or bulk upload. Strictly prohibited from uploading company data or other
+                    banned files.
+                </p>
+            </>
+        )
+    }
 
-  const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) =>
-    setFileList(newFileList);
+    return (
+        <Dragger {...props}>
+            {!previewImage ? uploadView() : preView(previewImage)}
+        </Dragger>
+    )
+}
 
-  const uploadButton = (
-    <button style={{ border: 0, background: 'none' }} type="button">
-      <PlusOutlined />
-      <div style={{ marginTop: 8 }}>Upload</div>
-    </button>
-  );
-  return (
-    <>
-      <Upload
-        action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
-        listType="picture-card"
-        fileList={fileList}
-        onPreview={handlePreview}
-        onChange={handleChange}
-      >
-        {fileList.length >= 1 ? null : uploadButton}
-      </Upload>
-      {previewImage && (
-        <Image
-          wrapperStyle={{ display: 'none' }}
-          preview={{
-            visible: previewOpen,
-            onVisibleChange: (visible) => setPreviewOpen(visible),
-            afterOpenChange: (visible) => !visible && setPreviewImage(''),
-          }}
-          src={previewImage}
-        />
-      )}
-    </>
-  );
-};
-
-export default Uploadpage;
+export default UploadPage;

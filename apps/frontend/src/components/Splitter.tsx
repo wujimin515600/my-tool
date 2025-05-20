@@ -1,6 +1,6 @@
 import React from 'react';
 import { Flex, Splitter, Typography } from 'antd';
-import Uploadpage from './Upload';
+import UploadPage from './Upload';
 
 const Desc: React.FC<Readonly<{ text?: string | number }>> = (props) => (
   <Flex justify="center" align="center" style={{ height: '100%' }}>
@@ -11,12 +11,16 @@ const Desc: React.FC<Readonly<{ text?: string | number }>> = (props) => (
 );
 
 const SplitterPage: React.FC = () => (
-  <Splitter style={{ height: 200, boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>
-    <Splitter.Panel defaultSize="40%" min="20%" max="70%">
-      <Uploadpage />
+  <Splitter style={{ height: '400px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>
+
+    <Splitter.Panel collapsible>
+    <UploadPage />
+    </Splitter.Panel>
+    <Splitter.Panel collapsible={{ start: true }}>
+      <Desc text={2} />
     </Splitter.Panel>
     <Splitter.Panel>
-      <Desc text="Second" />
+      <Desc text={3} />
     </Splitter.Panel>
   </Splitter>
 );

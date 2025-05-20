@@ -8,7 +8,7 @@ import {
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
-import { HeaderPage, SplitterPage } from '../components';
+import { HeaderPage, RowPage, SplitterPage } from '../components';
 const { Header, Content, Footer, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -63,6 +63,7 @@ const LayoutPage: React.FC = () => {
               borderRadius: borderRadiusLG,
             }}
           >
+            <RowPage />
             <SplitterPage />
           </div>
         </Content>
