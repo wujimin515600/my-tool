@@ -5,10 +5,10 @@ import { usePreviewStore, type PreviewStore } from '../stores'
 const ButtonPage: React.FC = () => {
     const clearImg = usePreviewStore((state: unknown) => {
         const typedState = state as PreviewStore;
-        return typedState.setPreviewImage('1');
+        return typedState.setPreviewImage;
     });
     return (
-        <Button type="primary" onClick={() => clearImg}>
+        <Button type="primary" onClick={() => clearImg('')}>
             清除图片
         </Button>
     );

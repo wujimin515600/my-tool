@@ -67,6 +67,15 @@ importers:
         specifier: ^6.3.5
         version: 6.3.5(@types/node@22.15.19)
 
+  libs/free_image_ocr:
+    dependencies:
+      jimp:
+        specifier: ^1.6.0
+        version: 1.6.0
+      tesseract.js:
+        specifier: ^6.0.1
+        version: 6.0.1
+
   libs/parse_er_img:
     dependencies:
       jimp:

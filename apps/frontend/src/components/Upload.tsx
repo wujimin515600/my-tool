@@ -10,10 +10,10 @@ const { Dragger } = Upload;
 
 const UploadPage: React.FC = () => {
     const [previewImage, setPreviewImage] = useState('');
-// 为了解决类型不兼容问题，将 state 类型暂时设置为 unknown，并在使用前进行类型断言
-const previeStore = usePreviewStore((state: unknown) => {
+const {previewImage: previeStore} = usePreviewStore() as PreviewStore;
+const setSotrePreview = usePreviewStore((state: unknown) => {
     const typedState = state as PreviewStore;
-    return typedState.previewImage;
+    return typedState.setPreviewImage;
 });
 
     // 生成文件预览 URL
@@ -27,8 +27,9 @@ const previeStore = usePreviewStore((state: unknown) => {
         // });
     };
     useEffect(() => {
-        console.log('previewImage', previeStore)
-        setPreviewImage('');
+        if(!previeStore) {
+            setPreviewImage('');
+        }
     }, [previeStore]);
     // 阻止自动上传
     const beforeUpload = () => false;
@@ -54,6 +55,7 @@ const previeStore = usePreviewStore((state: unknown) => {
 
             const previewUrl = getFilePreviewUrl(filteredImages[0].originFileObj as Blob | MediaSource);
             setPreviewImage(previewUrl ?? '');
+            setSotrePreview(previewUrl);
         },
         onDrop(e) {
             console.log('Dropped files', e.dataTransfer.files);
