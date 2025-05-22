@@ -11,10 +11,11 @@
   },
   "dependencies": {
     "@ant-design/v5-patch-for-react-19": "^1.0.3",
+    "@myorg/free_image_ocr": "workspace:*",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "zustand": "^5.0.4",
-    "@myorg/free_image_ocr": "workspace:*"
+    "react-syntax-highlighter": "^15.6.1",
+    "zustand": "^5.0.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",

@@ -1,19 +1,14 @@
 {
-  "name": "@myorg/free_image_ocr",
+  "name": "@myorg/utils",
   "version": "1.0.0",
   "description": "",
   "main": "./index.js",
   "scripts": {
-    "test": "node ./test/test.js"
+    "test": "node ./test/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.11.0",
-  "dependencies": {
-    "jimp": "^1.6.0",
-    "tesseract.js": "^6.0.1",
-    "@myorg/utils": "workspace:*"
-  },
   "type": "module"
 }

@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { InboxOutlined } from '@ant-design/icons';
 import type { UploadProps } from 'antd';
 import { Upload, Image } from 'antd';
-import { usePreviewStore, type PreviewStore } from '../stores'
-// 由于找不到模块，暂时注释掉原导入语句，需确认模块路径是否正确或模块是否存在
-import { free_image_ocr } from '@myorg/free_image_ocr';
+import { usePreviewStore, type PreviewStore, setLoading, setText } from '../stores'
+import {OCRSDK} from '@myorg/free_image_ocr';
+
 
 const { Dragger } = Upload;
 
@@ -17,10 +17,32 @@ const UploadPage: React.FC = () => {
         const typedState = state as PreviewStore;
         return typedState.setPreviewImage;
     });
+    // const { setLoading, setText } = useTextStore(
+    //     (state: TextStore) => ({ 
+    //     setLoading: state.setLoading, 
+    //     setText: state.setText }),
+    //     shallow
+    // );
+    // useEffect(() => {
+    //     const unsubscribe = useTextStore.subscribe(
+    //       state => ({ setLoading: state.setLoading, setText: state.setText }),
+    //       (newState, prevState) => {
+    //         // 手动比较或使用 shallow
+    //         if (newState.setLoading !== prevState.setLoading || newState.setText !== prevState.setText) {
+    //           // 处理更新
+    //         }
+    //       },
+    //       { equalityFn: shallow } // ✅ 添加比较函数
+    //     );
+    //     return unsubscribe;
+    //   }, []);
 
     const OCR = async (file: string) => {
-        const res = await free_image_ocr(file);
+        setLoading(true);
+        const res = await OCRSDK(file);
         console.log(res);
+        setLoading(false);
+        setText(res);
     }
 
     // 生成文件预览 URL
