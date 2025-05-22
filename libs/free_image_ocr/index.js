@@ -1,12 +1,6 @@
-import { Jimp } from "jimp";
-import { createWorker } from "tesseract.js";
 
-main(filePath);
-
-async function main() {
-    try {
-    
-    }catch(err) {
-        console.log(err);
-    }
-}
+import {free_image_ocr} from "./src/OCR.js";
+module.exports = {
+    free_image_ocr,
+  };
+  

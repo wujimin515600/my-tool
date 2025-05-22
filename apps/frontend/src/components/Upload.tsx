@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { InboxOutlined } from '@ant-design/icons';
 import type { UploadProps } from 'antd';
 import { Upload, Image } from 'antd';
-import {usePreviewStore, type PreviewStore}from '../stores'
+import { usePreviewStore, type PreviewStore } from '../stores'
+// 由于找不到模块，暂时注释掉原导入语句，需确认模块路径是否正确或模块是否存在
+import { free_image_ocr } from '@myorg/free_image_ocr';
 
 const { Dragger } = Upload;
 
@@ -10,11 +12,16 @@ const { Dragger } = Upload;
 
 const UploadPage: React.FC = () => {
     const [previewImage, setPreviewImage] = useState('');
-const {previewImage: previeStore} = usePreviewStore() as PreviewStore;
-const setSotrePreview = usePreviewStore((state: unknown) => {
-    const typedState = state as PreviewStore;
-    return typedState.setPreviewImage;
-});
+    const { previewImage: previeStore } = usePreviewStore() as PreviewStore;
+    const setSotrePreview = usePreviewStore((state: unknown) => {
+        const typedState = state as PreviewStore;
+        return typedState.setPreviewImage;
+    });
+
+    const OCR = async (file: string) => {
+        const res = await free_image_ocr(file);
+        console.log(res);
+    }
 
     // 生成文件预览 URL
     const getFilePreviewUrl = (file: Blob | MediaSource) => {
@@ -27,7 +34,7 @@ const setSotrePreview = usePreviewStore((state: unknown) => {
         // });
     };
     useEffect(() => {
-        if(!previeStore) {
+        if (!previeStore) {
             setPreviewImage('');
         }
     }, [previeStore]);
@@ -38,7 +45,7 @@ const setSotrePreview = usePreviewStore((state: unknown) => {
         multiple: true,
         beforeUpload: beforeUpload,
         disabled: !!previewImage,
-        onChange(info) {
+        async onChange(info) {
             console.log('Upload changed:', info.fileList);
             const filteredImages = info.fileList
                 // .filter(file => file.status === 'done' || file.status === 'ready')
@@ -56,6 +63,7 @@ const setSotrePreview = usePreviewStore((state: unknown) => {
             const previewUrl = getFilePreviewUrl(filteredImages[0].originFileObj as Blob | MediaSource);
             setPreviewImage(previewUrl ?? '');
             setSotrePreview(previewUrl);
+            await OCR(previewUrl);
         },
         onDrop(e) {
             console.log('Dropped files', e.dataTransfer.files);

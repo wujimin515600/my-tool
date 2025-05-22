@@ -47,7 +47,6 @@ async function detectFaces(imagePath) {
     const faceCascade = new cv.CascadeClassifier(cv.HAAR_FRONTALFACE_ALT2);
     const faces = faceCascade.detectMultiScale(image);
     console.log('Faces detected:', faces); // 输出检测到的人脸位置和大小
-    awa
 }
 
 async function readFile(filePath) {

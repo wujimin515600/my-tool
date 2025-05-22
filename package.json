@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "web": "pnpm --filter frontend dev"
+    "web": "pnpm --filter frontend dev",
+    "testOCR": "pnpm --filter free_image_ocr test"
   },
   "keywords": [],
   "author": "",

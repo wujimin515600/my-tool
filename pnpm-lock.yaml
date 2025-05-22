@@ -23,6 +23,9 @@ importers:
       '@ant-design/v5-patch-for-react-19':
         specifier: ^1.0.3
         version: 1.0.3(antd@5.25.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@myorg/free_image_ocr':
+        specifier: workspace:*
+        version: link:../../libs/free_image_ocr
       react:
         specifier: ^19.1.0
         version: 19.1.0
