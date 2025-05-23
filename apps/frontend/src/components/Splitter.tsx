@@ -11,7 +11,7 @@ const SplitterPage: React.FC = () => {
   const text = useTextStore(state => state.text);
   const loading = useTextStore(state => state.loading);
   const [loadingState, setLoadingState] = useState<boolean>(false);
-  const [textState, setTextState] = useState<string>('' );
+  const [textState, setTextState] = useState<string>('');
 
   useEffect(() => {
     setLoadingState(loading);

@@ -5,5 +5,3 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
 })
-
-declare module '@myorg/free_image_ocr';
