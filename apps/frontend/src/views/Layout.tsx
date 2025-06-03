@@ -9,6 +9,7 @@ import {
 import type { MenuProps } from 'antd';
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
 import { HeaderPage, RowPage, SplitterPage } from '../components';
+import { Outlet } from 'react-router-dom';
 const { Header, Content, Footer, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -63,8 +64,9 @@ const LayoutPage: React.FC = () => {
               borderRadius: borderRadiusLG,
             }}
           >
-            <RowPage />
-            <SplitterPage />
+            {/* <RowPage /> */}
+            {/* <SplitterPage /> */}
+            <Outlet />
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>
