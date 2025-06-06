@@ -4,6 +4,7 @@ import UploadPage from './Upload';
 import CodePage from './Code';
 import TextAreaPage from './TextArea';
 import  {useTextStore} from '../stores';
+import { RowPage } from '.';
 
 
 const SplitterPage: React.FC = () => {
@@ -26,7 +27,8 @@ const SplitterPage: React.FC = () => {
       return <TextAreaPage text={textState} />
     }
   }
-  return (
+  return (<>
+    <RowPage />
     <Splitter style={{ height: '400px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>
   
       <Splitter.Panel collapsible>
@@ -40,7 +42,7 @@ const SplitterPage: React.FC = () => {
         <CodePage />
       </Splitter.Panel>
     </Splitter>
-  )
+    </>)
 };
 
 export default SplitterPage;

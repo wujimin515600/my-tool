@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  DesktopOutlined,
+  DribbbleOutlined,
   FileOutlined,
   PieChartOutlined,
   TeamOutlined,
@@ -8,8 +8,8 @@ import {
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
-import { HeaderPage, RowPage, SplitterPage } from '../components';
-import { Outlet } from 'react-router-dom';
+import { HeaderPage } from '../components';
+import { Outlet, useNavigate } from 'react-router-dom';
 const { Header, Content, Footer, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -29,8 +29,8 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-  getItem('Option 1', '1', <PieChartOutlined />),
-  getItem('Option 2', '2', <DesktopOutlined />),
+  getItem('OCR', '/', <PieChartOutlined />),
+  getItem('Map', '/map', <DribbbleOutlined />),
   getItem('User', 'sub1', <UserOutlined />, [
     getItem('Tom', '3'),
     getItem('Bill', '4'),
@@ -42,15 +42,20 @@ const items: MenuItem[] = [
 
 const LayoutPage: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const navigate = useNavigate();
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
+  const onClick: MenuProps['onClick'] = (e) => {
+    console.log('click ', e);
+    navigate(e.key)
+  };
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
         <div className="demo-logo-vertical" />
-        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
+        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} onClick={onClick} />
       </Sider>
       <Layout>
         <Header style={{ padding: 0, background: colorBgContainer }}><HeaderPage /></Header>
@@ -64,8 +69,6 @@ const LayoutPage: React.FC = () => {
               borderRadius: borderRadiusLG,
             }}
           >
-            {/* <RowPage /> */}
-            {/* <SplitterPage /> */}
             <Outlet />
           </div>
         </Content>

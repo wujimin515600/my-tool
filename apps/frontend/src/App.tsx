@@ -8,7 +8,7 @@ import Layout from './views/Layout'
 // import { HeaderPage } from '../components/HeaderPage'; 
 // import { RowPage } from '../components/RowPage'; 
 // import { SplitterPage } from '../components/SplitterPage';
-import { RowPage, SplitterPage } from './components';
+import { SplitterPage, MapPage, ResultPage } from './components';
 import './App.css'
 
 function App() {
@@ -19,7 +19,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route path="/" element={<SplitterPage />} />
-          {/* <Route path="/row" element={<RowPage />} /> */}
+          <Route path="/map" element={<MapPage />} />
+          <Route path="/*" element={<ResultPage />} />
         </Route>
        
       </Routes>
