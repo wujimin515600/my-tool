@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "web": "pnpm --filter frontend dev",
-    "testOCR": "pnpm --filter free_image_ocr test"
+    "testOCR": "pnpm --filter free_image_ocr test",
+    "cli": "pnpm --filter generated_code start"
   },
   "keywords": [],
   "author": "",
